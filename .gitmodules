@@ -1,0 +1,3 @@
+[submodule "procedure-builder-procedure"]
+	path = procedure-builder-procedure
+	url = https://github.com/trustack/procedure-builder-procedure
