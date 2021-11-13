@@ -1,4 +1,7 @@
-const argv = require('yargs').demand(3)
+const yargs = require('yargs');
+
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).demand(3)
   .alias('p', 'proc')
   .alias('k', 'key')
   .alias('i', 'ipfs')
@@ -9,10 +12,9 @@ const argv = require('yargs').demand(3)
   .describe('i', 'Publish on IPFS - requires a local IPFS daemon to be running. Expect true/false')
   .help('h')
   .alias('h', 'help')
-  .demand(3)
-  .argv;
+  .demand(0).argv;
 
-const procBldr = require('.'); /* the current working directory so that means main.js because of package.json */
+const procBldr = require('./main'); /* the current working directory so that means main.js because of package.json */
 
 console.log(
     procBldr(argv)
