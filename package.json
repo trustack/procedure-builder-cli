@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "CLI tool for packaging Trustack Procedures",
   "main": "index.js",
-  "bin": "bin.js",
+  "bin": {
+    "trst-proc-bldr": "index.js"},
   "pkg": {
     "assets": "node_modules/**/*",
     "outputPath": "dist"
@@ -16,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "del": "^6.0.0",
+    "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
     "pkg": "^5.4.1",
     "tar": "^6.1.11",

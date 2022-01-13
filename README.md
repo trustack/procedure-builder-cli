@@ -33,21 +33,28 @@ This repo contains the a command line wrapper for the [Procedure Builder](https:
 _TBD_
 
 ## Usage
+- Currently requires Nodejs be installed, with which it's used as follows: ```node index.js [options]```
+
 Usage can be seen using the `--help` option, which is posted here below:
 ```
-Usage: package-builder-cli-win.exe [options]
+Usage: procbldr.exe [options]
 
 Options:
       --version  Show version number                                   [boolean]
-  -p, --proc     Procedure code file path, should be index.js
+  -c, --code     Procedure code file path, should be index.js
   -k, --key      Encrypt key file (public key)
-  -i, --ipfs     Publish on IPFS - requires a local IPFS daemon to be running.
-                 Expect true/false
+  -p, --pin      Pin via Pinata pinning service; must supply apikey and
+                 secretkey via environment variables or commandline arguments.
+                 Will attempt to read from env first, from: PIN_API_KEY and
+                 PIN_SECRET_KEY.
+  -a, --apikey   Pinata API key - apikey used to pin to Pinata.cloud service
+  -s, --secret   Pinata secret key - secretkey used to pin to Pinata.cloud
+                 service
   -h, --help     Show help                                             [boolean]
 
 Examples:
-  package-builder-cli-win.exe -p            Package Procedure code in index.js
-  ./index.js -k ./cert.pem -i false         into a correct output file
+  index.js -p ./index.js -k ./cert.pem -i   Package Procedure code in index.js
+  false                                     into a correct output file
   ```
 
 ### Procedure Development
@@ -55,7 +62,9 @@ Examples:
 See [Procedure Examples](https://github.com/trustack/trustack-sdk/blob/master/Procedure_Examples/README.md) in the trustack-sdk repo for how to write Procedures.
 
 ## Build
-The NPM `pkg` package is a prerequisite. This can be installed via: `npm install --global pkg`.
+_*```NOTE: This isn't working in the current release. Will update this once it's working again.```*_
+
+The NPM package `pkg` is a prerequisite. This can be installed via: `npm install --global pkg`.
 To build, run: `npm build`.
 
 ## Contributing
@@ -78,3 +87,5 @@ The primary contact for this project is [@fcbrandon].
 
 - [Trustack SDK](https://github.com/trustack/trustack-sdk)
 - [Procedure Builder Procedure](https://github.com/trustack/procedure-builder-procedure)
+
+`Copyright (C) 2021 Brandon Caldwell - All Rights Reserved`

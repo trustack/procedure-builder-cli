@@ -3,3 +3,4 @@ node_modules
 coverage
 procedure-builder-procedure
 dist
+.env
