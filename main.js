@@ -1,5 +1,6 @@
 const pkgBldr = require('./procedure-builder-procedure/index');
 const fs = require('fs');
+const path = require('path');
 const yargs = require('yargs');
 const { createCipheriv } = require('crypto');
 require('dotenv').config();
@@ -28,74 +29,81 @@ module.exports = async function (argv) {
     let code = fs.readFileSync(argv.c);
     input['procedureCode'] = {};
     input.procedureCode[argv.c] = code.toString();
-  } 
-  else if ( argv._[0]){
+  }
+  else if (argv._[0]) {
     input['procPath'] = argv._[0];
   }
 
-  if(argv.o){
+  if (argv.o) {
     input['output'] = argv.o;
   }
-  
+
   if (argv.k) {
     let key = fs.readFileSync(argv.k);
     input.encryptKey = key.toString();
-  } 
-  
+  }
+
   input.doPublish = argv.i == null ? false : true;
 
   /*
   PIN_API_KEY and PIN_SECRET_KEY.
   */
- try{
+  try {
 
-  if(argv.s){
-    input['secretsJsonPath'] = argv.s;
-    let secretsObj = fs.readFileSync(argv.s);
-    input['secrets'] = JSON.parse(secretsObj);
-  }
-  if (argv.p) {
-    let isApiKeyMissing = false;
-    let isSecretKeyMissing = false;
-
-    if(process.env.PIN_API_KEY){
-      secret.pinataApiKey = process.env.PIN_API_KEY;
+    if (argv.s) {
+      input['secretsJsonPath'] = argv.s;
+      let secretsObj = fs.readFileSync(argv.s);
+      input['secrets'] = JSON.parse(secretsObj);
     }
-    else if(argv.a != null){
-      secret.pinataApiKey = argv.a;
+    if (argv.p) {
+      let isApiKeyMissing = false;
+      let isSecretKeyMissing = false;
+
+      if (process.env.PIN_API_KEY) {
+        secret.pinataApiKey = process.env.PIN_API_KEY;
+      }
+      else if (argv.a != null) {
+        secret.pinataApiKey = argv.a;
+      }
+      else {
+        isApiKeyMissing = true;
+      }
+
+      if (process.env.PIN_SECRET_KEY) {
+        secret.pinataSecretApiKey = process.env.PIN_SECRET_KEY;
+      }
+      else if (argv.e != null) {
+        secret.pinataSecretApiKey = argv.e;
+      }
+      else {
+        isSecretKeyMissing = true;
+
+      }
+
+
+      if (isApiKeyMissing || isSecretKeyMissing) {
+        isApiKeyMissing == true ?
+          console.warn('Missing Pinata API key via `PIN_API_KEY` environment variable or -a/--apikey on the commandline.') : 0;
+        isSecretKeyMissing == true ?
+          console.warn('Missing Pinata secret key via `PIN_SECRET_KEY` environment variable or -s/--secretkey on the commandline.') : 0;
+        return;
+      }
+
+      // input.doPublish = true;
+      console.log(`Beginning to pacakge up Procedure located in ${path.resolve(input.procPath)}...`);
+      await pkgBldr(input, secret);
     }
     else {
-      isApiKeyMissing = true;
-    }
+      console.log(`Beginning to pacakge up Procedure located in ${path.resolve(input.procPath)}...`);
+      await pkgBldr(input).then(()=>{
+          console.log("Procedure package successfully created.");
 
-    if(process.env.PIN_SECRET_KEY){
-      secret.pinataSecretApiKey = process.env.PIN_SECRET_KEY;
+      });
     }
-    else if(argv.e != null)
-    {
-      secret.pinataSecretApiKey = argv.e;
-    }
-    else{
-      isSecretKeyMissing = true;
-  
-    }
-
-
-    if(isApiKeyMissing || isSecretKeyMissing){
-      isApiKeyMissing == true ? 
-        console.warn('Missing Pinata API key via `PIN_API_KEY` environment variable or -a/--apikey on the commandline.') : 0;
-      isSecretKeyMissing == true ? 
-        console.warn('Missing Pinata secret key via `PIN_SECRET_KEY` environment variable or -s/--secretkey on the commandline.') : 0 ;
-      return;
-    }
-
-    // input.doPublish = true;
-    await pkgBldr(input, secret);
+  } catch (err) {
+    console.error(err);
+    return;
   }
-  else {
-    await pkgBldr(input);
-  }
-} catch(err){
-  console.error(err);
-}
+  console.log("Procedure package successfully created.");
+
 }

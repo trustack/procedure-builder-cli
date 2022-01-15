@@ -35,3 +35,5 @@ const argv = yargs(hideBin(process.argv))
     console.error(`Failed to create pacakge. ${err}`);
   }
 })();
+
+// Manual test command: node index.js ../Procedures/az-auth-proc --output ../az-auth-proc.tgz -s ../Procedures/az-auth-proc/secretsin.json -k ../Trustack%20Node/tests/ssl/cert.pem 

@@ -4,7 +4,8 @@
   "description": "CLI tool for packaging Trustack Procedures",
   "main": "index.js",
   "bin": {
-    "trst-proc-bldr": "index.js"},
+    "trst-proc-bldr": "index.js"
+  },
   "pkg": {
     "assets": "node_modules/**/*",
     "outputPath": "dist"
@@ -22,5 +23,8 @@
     "pkg": "^5.4.1",
     "tar": "^6.1.11",
     "yargs": "^17.2.1"
+  },
+  "devDependencies": {
+    "ignore": "^5.2.0"
   }
 }
