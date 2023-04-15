@@ -8,7 +8,10 @@
   },
   "pkg": {
     "assets": "node_modules/**/*",
-    "outputPath": "dist"
+    "outputPath": "dist",
+    "targets": [
+      "node10"
+    ]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

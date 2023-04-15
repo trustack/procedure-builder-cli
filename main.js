@@ -5,6 +5,8 @@ const yargs = require('yargs');
 const { createCipheriv } = require('crypto');
 require('dotenv').config();
 
+const DEBUG = process.env.PROC_BLDR_DEBUG;
+
 /*
 { input :{
   procedureCode: "code of the procedure",
@@ -101,9 +103,8 @@ module.exports = async function (argv) {
       });
     }
   } catch (err) {
-    console.error(err);
-    return;
+    if(DEBUG) console.error(err);
+    throw(new Error());
   }
-  console.log("Procedure package successfully created.");
 
 }

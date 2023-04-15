@@ -6,7 +6,8 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/index.js",
-            "args":["/p main.js", "/k main.js", "/i true"]
+            "args":["/p main.js", "/k main.js", "/i true"],
+            "console":"integratedTerminal"
         }
     ]
 }
